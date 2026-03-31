@@ -331,15 +331,46 @@
 
         <!-- Screen 1: Hero -->
         <div class="screen active" id="screen1">
-            <div class="screen-number">1 of 11</div>
-            <h1>Track your practices with just a picture 📸</h1>
-            <div class="hero-image">📷</div>
-            <p class="subtitle">Snap a photo of your whiteboard or workout sheet. Swimnerd AI instantly converts it to structured data and learns your coaching style.</p>
-            <div class="info-box">
-                ✨ The more we know about your coaching style, the better we can tailor AI-generated practices to match your methodology.
+            <div style="text-align: center; margin-bottom: 30px;">
+                <div style="width: 80px; height: 80px; margin: 0 auto 20px; background: white; border-radius: 16px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+                    <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="6" y="12" width="36" height="24" rx="2" stroke="#0069B3" stroke-width="2.5"/>
+                        <line x1="6" y1="20" x2="42" y2="20" stroke="#0069B3" stroke-width="2.5"/>
+                        <line x1="6" y1="28" x2="42" y2="28" stroke="#0069B3" stroke-width="2.5"/>
+                        <line x1="16" y1="12" x2="16" y2="36" stroke="#0069B3" stroke-width="1.5"/>
+                        <line x1="24" y1="12" x2="24" y2="36" stroke="#0069B3" stroke-width="1.5"/>
+                        <line x1="32" y1="12" x2="32" y2="36" stroke="#0069B3" stroke-width="1.5"/>
+                    </svg>
+                </div>
+                <h1 style="font-size: 32px; margin-bottom: 12px;">Track practice<br>with just a picture</h1>
+                <p class="subtitle" style="font-size: 18px; color: #666;">Snap a photo or take a screenshot</p>
             </div>
+            
+            <div style="position: relative; width: 100%; max-width: 280px; margin: 0 auto 40px;">
+                <!-- Phone mockup -->
+                <div style="background: #1a1a1a; border-radius: 32px; padding: 12px; box-shadow: 0 20px 40px rgba(0,0,0,0.3);">
+                    <div style="background: #f5f5f5; border-radius: 24px; overflow: hidden; aspect-ratio: 9/16;">
+                        <!-- Demo workout image placeholder -->
+                        <div style="background: linear-gradient(135deg, #e8f4f8 0%, #b3dce8 100%); height: 100%; display: flex; align-items: center; justify-content: center; padding: 20px;">
+                            <div style="background: white; width: 85%; height: 70%; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); padding: 16px; font-size: 11px; font-family: monospace; color: #333; overflow: hidden;">
+                                <div style="font-weight: bold; margin-bottom: 8px; text-decoration: underline;">MAIN SET</div>
+                                <div style="margin-bottom: 6px;">WARM-UP:</div>
+                                <div style="margin-bottom: 6px;">4x50 on :50</div>
+                                <div style="margin-bottom: 6px;">2x100 @ 1:30</div>
+                                <div style="margin-bottom: 8px; margin-top: 10px; font-weight: bold; color: #0069B3;">DRILLS:</div>
+                                <div style="margin-bottom: 6px;">8x50 Freestyle drill</div>
+                                <div style="margin-bottom: 6px;">Odds: 6-3-6</div>
+                                <div style="margin-bottom: 6px;">Evens: 6-6-6</div>
+                                <div style="margin-bottom: 8px; margin-top: 10px; font-weight: bold;">MAIN @ :45</div>
+                                <div style="margin-bottom: 4px;">4x25 FAST</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
             <div class="button-group">
-                <button class="btn-primary" onclick="nextScreen()">Get Started</button>
+                <button class="btn-primary" onclick="nextScreen()" style="width: 100%;">Get Started</button>
             </div>
         </div>
 
