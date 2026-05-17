@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Swimnerd AI - Coach Onboarding</title>
+    <title>Swimnerd - Coach Onboarding</title>
     <style>
         * {
             margin: 0;
@@ -12,804 +12,655 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: linear-gradient(135deg, #0069B3 0%, #0052A3 100%);
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(to bottom, #e8f4f8 0%, #d4e8f5 100%);
             min-height: 100vh;
             display: flex;
-            justify-content: center;
             align-items: center;
-            padding: 20px;
+            justify-content: center;
+            padding: 40px 20px;
         }
 
-        .onboarding-container {
+        .phone-container {
+            width: 375px;
+            height: 812px;
+            background: linear-gradient(135deg, #e0e0e0 0%, #c8c8c8 100%);
+            border-radius: 45px;
+            padding: 16px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.15), 0 10px 20px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        .phone-screen {
             width: 100%;
-            max-width: 480px;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            height: 100%;
+            background: #ffffff;
+            border-radius: 35px;
             overflow: hidden;
+            position: relative;
         }
 
-        .screen {
-            display: none;
-            padding: 40px 30px;
-            min-height: 600px;
-            animation: fadeIn 0.4s ease;
+        /* Dynamic Island */
+        .dynamic-island {
+            position: absolute;
+            top: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 30px;
+            background: #000;
+            border-radius: 20px;
+            z-index: 1000;
         }
 
-        .screen.active {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        /* Progress Bar */
+        .progress-container {
+            position: absolute;
+            top: 55px;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: #e0e0e0;
+            z-index: 999;
         }
 
         .progress-bar {
-            height: 4px;
-            background: #e0e0e0;
-            position: relative;
-        }
-
-        .progress-fill {
             height: 100%;
-            background: #0069B3;
+            background: #0088cc;
+            width: 0%;
             transition: width 0.3s ease;
         }
 
-        h1 {
-            font-size: 28px;
-            color: #1a1a1a;
-            margin-bottom: 12px;
-            font-weight: 700;
+        /* Screen Container */
+        .screen {
+            display: none;
+            height: 100%;
+            padding: 80px 30px 30px 30px;
+            position: relative;
+            animation: slideIn 0.3s ease;
         }
 
-        h2 {
-            font-size: 24px;
-            color: #1a1a1a;
-            margin-bottom: 12px;
-            font-weight: 600;
+        .screen.active {
+            display: flex;
+            flex-direction: column;
         }
 
-        .subtitle {
-            font-size: 16px;
-            color: #666;
-            margin-bottom: 30px;
-            line-height: 1.5;
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
 
-        .hero-image {
-            width: 100%;
-            height: 240px;
-            background: linear-gradient(135deg, #0069B3 0%, #00B3E6 100%);
+        /* Back Button */
+        .back-button {
+            position: absolute;
+            top: 65px;
+            left: 20px;
+            width: 40px;
+            height: 40px;
+            background: #f5f5f5;
+            border: 2px solid #e0e0e0;
             border-radius: 12px;
-            margin-bottom: 24px;
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 10;
+            color: #1a1a1a;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 80px;
-            position: relative;
-            overflow: hidden;
+            transition: all 0.2s;
         }
 
-        .hero-image::after {
-            content: '📸';
-            position: absolute;
-            font-size: 120px;
-            opacity: 0.2;
-            animation: pulse 2s ease-in-out infinite;
+        .back-button:hover {
+            background: #e8e8e8;
+            border-color: #0088cc;
         }
 
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
+        .landing-screen .back-button {
+            background: rgba(255,255,255,0.2);
+            border-color: rgba(255,255,255,0.3);
+            color: white;
         }
 
-        .form-group {
+        .landing-screen .back-button:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        /* Screen Content */
+        .screen-title {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            margin-top: 10px;
+            line-height: 1.2;
+            color: #1a1a1a;
+        }
+
+        .screen-subtitle {
+            font-size: 16px;
+            color: #666666;
+            margin-bottom: 30px;
+            line-height: 1.4;
+        }
+
+        .options-container {
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        /* Option Buttons */
+        .option {
+            background: #ffffff;
+            border: 2px solid #e0e0e0;
+            padding: 18px 20px;
+            border-radius: 16px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #1a1a1a;
+        }
+
+        .option:hover {
+            background: #f5f5f5;
+            border-color: #0088cc;
+        }
+
+        .option.selected {
+            background: #0088cc;
+            color: white;
+            border-color: #0088cc;
+        }
+
+        .option-icon {
+            font-size: 20px;
+        }
+
+        .option-label {
+            flex: 1;
+            font-weight: 500;
+        }
+
+        .option-sublabel {
+            font-size: 14px;
+            color: #999999;
+            margin-top: 4px;
+        }
+
+        .option.selected .option-sublabel {
+            color: #ffffff;
+            opacity: 0.9;
+        }
+
+        /* Input Fields */
+        .input-group {
             margin-bottom: 20px;
         }
 
-        label {
-            display: block;
+        .input-label {
             font-size: 14px;
             font-weight: 600;
-            color: #333;
             margin-bottom: 8px;
+            display: block;
+            color: #333333;
         }
 
-        input[type="text"],
-        input[type="email"],
-        input[type="date"],
-        input[type="number"],
-        select,
-        textarea {
+        .input-field {
             width: 100%;
-            padding: 12px 16px;
+            padding: 16px;
             border: 2px solid #e0e0e0;
-            border-radius: 8px;
+            border-radius: 12px;
             font-size: 16px;
             transition: border-color 0.2s;
+            background: #ffffff;
+            color: #1a1a1a;
         }
 
-        input:focus,
-        select:focus,
-        textarea:focus {
+        .input-field:focus {
             outline: none;
-            border-color: #0069B3;
+            border-color: #0088cc;
         }
 
-        textarea {
+        textarea.input-field {
             resize: vertical;
-            min-height: 80px;
+            min-height: 100px;
             font-family: inherit;
         }
 
-        .checkbox-group {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .checkbox-item {
-            display: flex;
-            align-items: center;
-            padding: 12px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .checkbox-item:hover {
-            border-color: #0069B3;
-            background: #f5f9fc;
-        }
-
-        .checkbox-item input[type="checkbox"] {
-            width: 20px;
-            height: 20px;
-            margin-right: 12px;
-            cursor: pointer;
-        }
-
-        .checkbox-item input[type="checkbox"]:checked + label {
-            color: #0069B3;
-            font-weight: 600;
-        }
-
-        .radio-group {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .radio-item {
-            display: flex;
-            align-items: center;
-            padding: 12px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .radio-item:hover {
-            border-color: #0069B3;
-            background: #f5f9fc;
-        }
-
-        .radio-item input[type="radio"] {
-            width: 20px;
-            height: 20px;
-            margin-right: 12px;
-            cursor: pointer;
-        }
-
-        .button-group {
-            display: flex;
-            gap: 12px;
-            margin-top: 30px;
-        }
-
-        button {
-            flex: 1;
-            padding: 14px 24px;
+        /* Continue Button */
+        .continue-button {
+            width: 100%;
+            padding: 18px;
+            background: #0088cc;
+            color: white;
             border: none;
-            border-radius: 10px;
-            font-size: 16px;
+            border-radius: 30px;
+            font-size: 18px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s;
+            margin-top: auto;
         }
 
-        .btn-primary {
-            background: #0069B3;
+        .continue-button:disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+        }
+
+        .continue-button:not(:disabled):hover {
+            background: #006699;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0,136,204,0.3);
+        }
+
+        /* Landing Screen Specific */
+        .landing-screen {
+            padding: 0;
+            background: linear-gradient(135deg, #0088cc 0%, #006699 100%);
             color: white;
         }
 
-        .btn-primary:hover {
-            background: #0052A3;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(0, 105, 179, 0.3);
-        }
-
-        .btn-secondary {
-            background: #e0e0e0;
-            color: #333;
-        }
-
-        .btn-secondary:hover {
-            background: #d0d0d0;
-        }
-
-        .screen-number {
-            font-size: 12px;
-            color: #999;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .success-icon {
-            font-size: 80px;
-            text-align: center;
-            margin-bottom: 20px;
-            animation: bounceIn 0.6s ease;
-        }
-
-        @keyframes bounceIn {
-            0% { transform: scale(0); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
-        }
-
-        .info-box {
-            background: #f5f9fc;
-            border-left: 4px solid #0069B3;
-            padding: 16px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            font-size: 14px;
-            color: #555;
-        }
-
-        .team-count-selector {
+        .landing-content {
+            flex: 1;
             display: flex;
-            gap: 12px;
-            justify-content: center;
-            flex-wrap: wrap;
+            flex-direction: column;
+            padding: 100px 30px 30px 30px;
         }
 
-        .team-count-btn {
-            width: 60px;
-            height: 60px;
-            border: 2px solid #e0e0e0;
-            border-radius: 12px;
-            background: white;
-            font-size: 24px;
+        .landing-title {
+            font-size: 42px;
             font-weight: 700;
-            color: #333;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .team-count-btn:hover {
-            border-color: #0069B3;
-            background: #f5f9fc;
-        }
-
-        .team-count-btn.selected {
-            border-color: #0069B3;
-            background: #0069B3;
+            margin-bottom: 16px;
+            line-height: 1.1;
             color: white;
         }
 
-        .percentage-inputs {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 12px;
+        .landing-subtitle {
+            font-size: 16px;
+            margin-bottom: 30px;
+            opacity: 0.9;
+            color: white;
+            line-height: 1.5;
         }
 
-        .percentage-input {
+        .app-icon-container {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 30px auto;
+        }
+
+        .app-icon {
+            width: 120px;
+            height: 120px;
+            background: white;
+            border-radius: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+
+        .cta-button {
+            background: white;
+            color: #0088cc;
+        }
+
+        .secondary-link {
             text-align: center;
-        }
-
-        .percentage-input label {
-            font-size: 12px;
-        }
-
-        .percentage-input input {
-            text-align: center;
+            margin-top: 16px;
+            color: white;
+            text-decoration: underline;
+            opacity: 0.8;
         }
     </style>
 </head>
 <body>
-    <div class="onboarding-container">
-        <div class="progress-bar">
-            <div class="progress-fill" id="progressFill"></div>
-        </div>
-
-        <!-- Screen 1: Hero -->
-        <div class="screen active" id="screen1">
-            <div style="text-align: center; margin-bottom: 30px;">
-                <div style="width: 80px; height: 80px; margin: 0 auto 20px; background: white; border-radius: 16px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
-                    <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <rect x="6" y="12" width="36" height="24" rx="2" stroke="#0069B3" stroke-width="2.5"/>
-                        <line x1="6" y1="20" x2="42" y2="20" stroke="#0069B3" stroke-width="2.5"/>
-                        <line x1="6" y1="28" x2="42" y2="28" stroke="#0069B3" stroke-width="2.5"/>
-                        <line x1="16" y1="12" x2="16" y2="36" stroke="#0069B3" stroke-width="1.5"/>
-                        <line x1="24" y1="12" x2="24" y2="36" stroke="#0069B3" stroke-width="1.5"/>
-                        <line x1="32" y1="12" x2="32" y2="36" stroke="#0069B3" stroke-width="1.5"/>
-                    </svg>
-                </div>
-                <h1 style="font-size: 32px; margin-bottom: 12px;">Track practice<br>with just a picture</h1>
-                <p class="subtitle" style="font-size: 18px; color: #666;">Snap a photo or take a screenshot</p>
+    <div class="phone-container">
+        <div class="phone-screen">
+            <div class="dynamic-island"></div>
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
             </div>
-            
-            <div style="position: relative; width: 100%; max-width: 280px; margin: 0 auto 40px;">
-                <!-- Phone mockup -->
-                <div style="background: #1a1a1a; border-radius: 32px; padding: 12px; box-shadow: 0 20px 40px rgba(0,0,0,0.3);">
-                    <div style="background: #f5f5f5; border-radius: 24px; overflow: hidden; aspect-ratio: 9/16;">
-                        <!-- Demo workout image placeholder -->
-                        <div style="background: linear-gradient(135deg, #e8f4f8 0%, #b3dce8 100%); height: 100%; display: flex; align-items: center; justify-content: center; padding: 20px;">
-                            <div style="background: white; width: 85%; height: 70%; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); padding: 16px; font-size: 11px; font-family: monospace; color: #333; overflow: hidden;">
-                                <div style="font-weight: bold; margin-bottom: 8px; text-decoration: underline;">MAIN SET</div>
-                                <div style="margin-bottom: 6px;">WARM-UP:</div>
-                                <div style="margin-bottom: 6px;">4x50 on :50</div>
-                                <div style="margin-bottom: 6px;">2x100 @ 1:30</div>
-                                <div style="margin-bottom: 8px; margin-top: 10px; font-weight: bold; color: #0069B3;">DRILLS:</div>
-                                <div style="margin-bottom: 6px;">8x50 Freestyle drill</div>
-                                <div style="margin-bottom: 6px;">Odds: 6-3-6</div>
-                                <div style="margin-bottom: 6px;">Evens: 6-6-6</div>
-                                <div style="margin-bottom: 8px; margin-top: 10px; font-weight: bold;">MAIN @ :45</div>
-                                <div style="margin-bottom: 4px;">4x25 FAST</div>
-                            </div>
+
+            <!-- SCREEN 0: Landing Page -->
+            <div class="screen landing-screen active" id="screen0">
+                <div class="landing-content">
+                    <h1 class="landing-title">Coach Smarter, <span style="color: #ffeb3b; text-shadow: 0 2px 10px rgba(255,235,59,0.3);">Win More</span></h1>
+                    <p class="landing-subtitle">Join the world's most advanced AI coaching platform. Create championship-level practices in seconds, not hours.</p>
+                    
+                    <div class="app-icon-container">
+                        <div class="app-icon">🏊‍♂️</div>
+                    </div>
+
+                    <button class="continue-button cta-button" onclick="nextScreen()">Start Your Journey →</button>
+                    <div class="secondary-link" style="margin-top: 16px; font-weight: 700; cursor: pointer; color: white; text-decoration: underline; opacity: 1;">Sign In</div>
+                </div>
+            </div>
+
+            <!-- SCREEN 1: Name & Email -->
+            <div class="screen" id="screen1">
+                <button class="back-button" onclick="prevScreen()">←</button>
+                <h2 class="screen-title">Let's get to know you</h2>
+                <p class="screen-subtitle">Tell us a bit about yourself</p>
+                <div class="options-container">
+                    <div class="input-group">
+                        <label class="input-label">Full Name</label>
+                        <input type="text" class="input-field" placeholder="John Smith" id="nameInput">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Email</label>
+                        <input type="email" class="input-field" placeholder="coach@example.com" id="emailInput">
+                    </div>
+                </div>
+                <button class="continue-button" id="btn1" onclick="nextScreen()">Continue</button>
+            </div>
+
+            <!-- SCREEN 2: Number of Teams -->
+            <div class="screen" id="screen2">
+                <button class="back-button" onclick="prevScreen()">←</button>
+                <h2 class="screen-title">How many teams do you coach?</h2>
+                <p class="screen-subtitle">This helps us customize your experience</p>
+                <div class="options-container">
+                    <div class="option" onclick="selectOption(this, 'numTeams')">
+                        <span class="option-icon">1️⃣</span>
+                        <span class="option-label">One team</span>
+                    </div>
+                    <div class="option" onclick="selectOption(this, 'numTeams')">
+                        <span class="option-icon">2️⃣</span>
+                        <span class="option-label">2-3 teams</span>
+                    </div>
+                    <div class="option" onclick="selectOption(this, 'numTeams')">
+                        <span class="option-icon">🏊</span>
+                        <span class="option-label">4+ teams</span>
+                    </div>
+                    <div class="option" onclick="selectOption(this, 'numTeams')">
+                        <span class="option-icon">👤</span>
+                        <span class="option-label">I'm a private coach</span>
+                    </div>
+                </div>
+                <button class="continue-button" disabled id="btn2" onclick="nextScreen()">Continue</button>
+            </div>
+
+            <!-- SCREEN 3: Primary Team Info -->
+            <div class="screen" id="screen3">
+                <button class="back-button" onclick="prevScreen()">←</button>
+                <h2 class="screen-title">Tell us about your primary team</h2>
+                <div class="options-container">
+                    <div class="input-group">
+                        <label class="input-label">Team Name</label>
+                        <input type="text" class="input-field" placeholder="Aqua Stars Swim Club" id="teamNameInput">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Age Group</label>
+                        <select class="input-field" id="ageGroupInput">
+                            <option value="">Select age group</option>
+                            <option value="8-under">8 & Under</option>
+                            <option value="10-under">10 & Under</option>
+                            <option value="12-under">12 & Under</option>
+                            <option value="high-school">High School (14-18)</option>
+                            <option value="college">College</option>
+                            <option value="masters">Masters</option>
+                            <option value="mixed">Mixed ages</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Number of Athletes</label>
+                        <input type="number" class="input-field" placeholder="25" id="numAthletesInput">
+                    </div>
+                </div>
+                <button class="continue-button" id="btn3" onclick="nextScreen()">Continue</button>
+            </div>
+
+            <!-- SCREEN 4: Season Structure -->
+            <div class="screen" id="screen4">
+                <button class="back-button" onclick="prevScreen()">←</button>
+                <h2 class="screen-title">Your season structure</h2>
+                <p class="screen-subtitle">How do you organize your training year?</p>
+                <div class="options-container">
+                    <div class="option" onclick="selectOption(this, 'seasonStructure')">
+                        <span class="option-icon">📅</span>
+                        <div>
+                            <div class="option-label">Traditional periodization</div>
+                            <div class="option-sublabel">Build → Peak → Taper</div>
+                        </div>
+                    </div>
+                    <div class="option" onclick="selectOption(this, 'seasonStructure')">
+                        <span class="option-icon">📊</span>
+                        <div>
+                            <div class="option-label">Year-round training</div>
+                            <div class="option-sublabel">Multiple peaks per year</div>
+                        </div>
+                    </div>
+                    <div class="option" onclick="selectOption(this, 'seasonStructure')">
+                        <span class="option-icon">🏫</span>
+                        <div>
+                            <div class="option-label">School year only</div>
+                            <div class="option-sublabel">Sept-May season</div>
+                        </div>
+                    </div>
+                    <div class="option" onclick="selectOption(this, 'seasonStructure')">
+                        <span class="option-icon">🤷</span>
+                        <div>
+                            <div class="option-label">Flexible/adaptive</div>
+                            <div class="option-sublabel">Based on athlete needs</div>
                         </div>
                     </div>
                 </div>
+                <button class="continue-button" disabled id="btn4" onclick="nextScreen()">Continue</button>
             </div>
-            
-            <div class="button-group">
-                <button class="btn-primary" onclick="nextScreen()" style="width: 100%;">Get Started</button>
-            </div>
-        </div>
 
-        <!-- Screen 2: Basic Profile -->
-        <div class="screen" id="screen2">
-            <div class="screen-number">2 of 11</div>
-            <h2>Let's get to know you</h2>
-            <p class="subtitle">Basic information to set up your profile</p>
-            
-            <div class="form-group">
-                <label>First Name</label>
-                <input type="text" id="firstName" placeholder="Enter your first name">
+            <!-- SCREEN 5: Training Philosophy -->
+            <div class="screen" id="screen5">
+                <button class="back-button" onclick="prevScreen()">←</button>
+                <h2 class="screen-title">Your training philosophy</h2>
+                <p class="screen-subtitle">What drives your coaching approach?</p>
+                <div class="options-container">
+                    <div class="option" onclick="selectOption(this, 'philosophy')">
+                        <span class="option-icon">⚡</span>
+                        <div>
+                            <div class="option-label">High intensity, lower volume</div>
+                            <div class="option-sublabel">Quality over quantity</div>
+                        </div>
+                    </div>
+                    <div class="option" onclick="selectOption(this, 'philosophy')">
+                        <span class="option-icon">🏋️</span>
+                        <div>
+                            <div class="option-label">High volume, aerobic base</div>
+                            <div class="option-sublabel">Build endurance first</div>
+                        </div>
+                    </div>
+                    <div class="option" onclick="selectOption(this, 'philosophy')">
+                        <span class="option-icon">⚖️</span>
+                        <div>
+                            <div class="option-label">Balanced approach</div>
+                            <div class="option-sublabel">Mix of volume and intensity</div>
+                        </div>
+                    </div>
+                    <div class="option" onclick="selectOption(this, 'philosophy')">
+                        <span class="option-icon">🎯</span>
+                        <div>
+                            <div class="option-label">Technique-focused</div>
+                            <div class="option-sublabel">Perfect practice makes perfect</div>
+                        </div>
+                    </div>
+                </div>
+                <button class="continue-button" disabled id="btn5" onclick="nextScreen()">Continue</button>
             </div>
-            
-            <div class="form-group">
-                <label>Last Name</label>
-                <input type="text" id="lastName" placeholder="Enter your last name">
-            </div>
-            
-            <div class="form-group">
-                <label>Date of Birth</label>
-                <input type="date" id="dob">
-            </div>
-            
-            <div class="form-group">
-                <label>Gender</label>
-                <select id="gender">
-                    <option value="">Select...</option>
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                    <option value="other">Other</option>
-                    <option value="prefer-not">Prefer not to say</option>
-                </select>
-            </div>
-            
-            <div class="button-group">
-                <button class="btn-secondary" onclick="prevScreen()">Back</button>
-                <button class="btn-primary" onclick="nextScreen()">Continue</button>
-            </div>
-        </div>
 
-        <!-- Screen 3: Number of Teams -->
-        <div class="screen" id="screen3">
-            <div class="screen-number">3 of 11</div>
-            <h2>How many teams do you coach?</h2>
-            <p class="subtitle">You can set up additional teams later in Settings</p>
-            
-            <div class="team-count-selector">
-                <button class="team-count-btn" onclick="selectTeamCount(1)">1</button>
-                <button class="team-count-btn" onclick="selectTeamCount(2)">2</button>
-                <button class="team-count-btn" onclick="selectTeamCount(3)">3</button>
-                <button class="team-count-btn" onclick="selectTeamCount(4)">4+</button>
+            <!-- SCREEN 6: Practice Structure -->
+            <div class="screen" id="screen6">
+                <button class="back-button" onclick="prevScreen()">←</button>
+                <h2 class="screen-title">Typical practice structure</h2>
+                <p class="screen-subtitle">How long are your usual practices?</p>
+                <div class="options-container">
+                    <div class="option" onclick="selectOption(this, 'practiceLength')">
+                        <span class="option-icon">⏱️</span>
+                        <div>
+                            <div class="option-label">45-60 minutes</div>
+                            <div class="option-sublabel">Short and focused</div>
+                        </div>
+                    </div>
+                    <div class="option" onclick="selectOption(this, 'practiceLength')">
+                        <span class="option-icon">⏱️</span>
+                        <div>
+                            <div class="option-label">60-90 minutes</div>
+                            <div class="option-sublabel">Standard practice</div>
+                        </div>
+                    </div>
+                    <div class="option" onclick="selectOption(this, 'practiceLength')">
+                        <span class="option-icon">⏱️</span>
+                        <div>
+                            <div class="option-label">90-120 minutes</div>
+                            <div class="option-sublabel">Extended training</div>
+                        </div>
+                    </div>
+                    <div class="option" onclick="selectOption(this, 'practiceLength')">
+                        <span class="option-icon">🔄</span>
+                        <div>
+                            <div class="option-label">Varies by day/week</div>
+                            <div class="option-sublabel">Flexible schedule</div>
+                        </div>
+                    </div>
+                </div>
+                <button class="continue-button" disabled id="btn6" onclick="nextScreen()">Continue</button>
             </div>
-            
-            <div class="info-box" style="margin-top: 30px;">
-                💡 We'll set up your primary team now. You can add additional teams later in Settings.
-            </div>
-            
-            <div class="button-group">
-                <button class="btn-secondary" onclick="prevScreen()">Back</button>
-                <button class="btn-primary" onclick="nextScreen()">Continue</button>
-            </div>
-        </div>
 
-        <!-- Screen 4: Primary Team Setup -->
-        <div class="screen" id="screen4">
-            <div class="screen-number">4 of 11</div>
-            <h2>Tell us about your primary team</h2>
-            <p class="subtitle">This helps us understand your coaching context</p>
-            
-            <div class="form-group">
-                <label>Team Name</label>
-                <input type="text" id="teamName" placeholder="e.g., Gator Swim Club">
+            <!-- SCREEN 7: Set Types -->
+            <div class="screen" id="screen7">
+                <button class="back-button" onclick="prevScreen()">←</button>
+                <h2 class="screen-title">Your go-to set types</h2>
+                <p class="screen-subtitle">What do you program most often? (Select all that apply)</p>
+                <div class="options-container">
+                    <div class="option" style="border: 2px solid #e0e0e0;" onclick="toggleCheckbox(this, 'setTypes')">
+                        <input type="checkbox" style="width: 20px; height: 20px; margin-right: 10px;">
+                        <span class="option-label">IM/Stroke sets</span>
+                    </div>
+                    <div class="option" style="border: 2px solid #e0e0e0;" onclick="toggleCheckbox(this, 'setTypes')">
+                        <input type="checkbox" style="width: 20px; height: 20px; margin-right: 10px;">
+                        <span class="option-label">Sprint/speed work</span>
+                    </div>
+                    <div class="option" style="border: 2px solid #e0e0e0;" onclick="toggleCheckbox(this, 'setTypes')">
+                        <input type="checkbox" style="width: 20px; height: 20px; margin-right: 10px;">
+                        <span class="option-label">Aerobic/endurance</span>
+                    </div>
+                    <div class="option" style="border: 2px solid #e0e0e0;" onclick="toggleCheckbox(this, 'setTypes')">
+                        <input type="checkbox" style="width: 20px; height: 20px; margin-right: 10px;">
+                        <span class="option-label">Threshold/lactate sets</span>
+                    </div>
+                    <div class="option" style="border: 2px solid #e0e0e0;" onclick="toggleCheckbox(this, 'setTypes')">
+                        <input type="checkbox" style="width: 20px; height: 20px; margin-right: 10px;">
+                        <span class="option-label">Kicking/drilling</span>
+                    </div>
+                    <div class="option" style="border: 2px solid #e0e0e0;" onclick="toggleCheckbox(this, 'setTypes')">
+                        <input type="checkbox" style="width: 20px; height: 20px; margin-right: 10px;">
+                        <span class="option-label">Race pace simulation</span>
+                    </div>
+                </div>
+                <button class="continue-button" disabled id="btn7" onclick="nextScreen()">Continue</button>
             </div>
-            
-            <div class="form-group">
-                <label>Team Type</label>
-                <select id="teamType">
-                    <option value="">Select...</option>
-                    <option value="club">Club Team</option>
-                    <option value="high-school">High School</option>
-                    <option value="college">College</option>
-                    <option value="masters">Masters</option>
-                    <option value="summer">Summer League</option>
-                </select>
-            </div>
-            
-            <div class="form-group">
-                <label>Competitive Level</label>
-                <select id="teamLevel">
-                    <option value="">Select...</option>
-                    <option value="recreational">Recreational</option>
-                    <option value="age-group">Age Group</option>
-                    <option value="senior">Senior</option>
-                    <option value="national">National Level</option>
-                    <option value="elite">Elite/Olympic</option>
-                </select>
-            </div>
-            
-            <div class="form-group">
-                <label>Team Size</label>
-                <select id="teamSize">
-                    <option value="">Select...</option>
-                    <option value="1-15">1-15 swimmers</option>
-                    <option value="16-30">16-30 swimmers</option>
-                    <option value="31-50">31-50 swimmers</option>
-                    <option value="51-100">51-100 swimmers</option>
-                    <option value="100+">100+ swimmers</option>
-                </select>
-            </div>
-            
-            <div class="form-group">
-                <label>Pool Configuration</label>
-                <select id="poolConfig">
-                    <option value="">Select...</option>
-                    <option value="scy-25">25 yards (SCY)</option>
-                    <option value="scm-25">25 meters (SCM)</option>
-                    <option value="lcm-50">50 meters (LCM)</option>
-                    <option value="mixed">Mixed availability</option>
-                </select>
-            </div>
-            
-            <div class="button-group">
-                <button class="btn-secondary" onclick="prevScreen()">Back</button>
-                <button class="btn-primary" onclick="nextScreen()">Continue</button>
-            </div>
-        </div>
 
-        <!-- Screen 5: Season Structure -->
-        <div class="screen" id="screen5">
-            <div class="screen-number">5 of 11</div>
-            <h2>Your season structure</h2>
-            <p class="subtitle">How do you organize your training year?</p>
-            
-            <div class="form-group">
-                <label>Season Model</label>
-                <select id="seasonModel">
-                    <option value="">Select...</option>
-                    <option value="single">Single peak (one championship meet)</option>
-                    <option value="double">Double peak (2 championship meets)</option>
-                    <option value="triple">Triple peak (3+ meets)</option>
-                    <option value="year-round">Year-round training</option>
-                </select>
+            <!-- SCREEN 8: Intervals & Pacing -->
+            <div class="screen" id="screen8">
+                <button class="back-button" onclick="prevScreen()">←</button>
+                <h2 class="screen-title">Intervals & pacing approach</h2>
+                <p class="screen-subtitle">How do you typically structure intervals?</p>
+                <div class="options-container">
+                    <div class="option" onclick="selectOption(this, 'intervals')">
+                        <span class="option-icon">⏰</span>
+                        <div>
+                            <div class="option-label">Strict send-offs</div>
+                            <div class="option-sublabel">Clock-based intervals</div>
+                        </div>
+                    </div>
+                    <div class="option" onclick="selectOption(this, 'intervals')">
+                        <span class="option-icon">😌</span>
+                        <div>
+                            <div class="option-label">Rest intervals</div>
+                            <div class="option-sublabel">:10-:30 between reps</div>
+                        </div>
+                    </div>
+                    <div class="option" onclick="selectOption(this, 'intervals')">
+                        <span class="option-icon">🔀</span>
+                        <div>
+                            <div class="option-label">Mix of both</div>
+                            <div class="option-sublabel">Depends on the set</div>
+                        </div>
+                    </div>
+                    <div class="option" onclick="selectOption(this, 'intervals')">
+                        <span class="option-icon">📊</span>
+                        <div>
+                            <div class="option-label">Heart rate zones</div>
+                            <div class="option-sublabel">HR-based training</div>
+                        </div>
+                    </div>
+                </div>
+                <button class="continue-button" disabled id="btn8" onclick="nextScreen()">Continue</button>
             </div>
-            
-            <div class="form-group">
-                <label>Current Training Phase</label>
-                <select id="currentPhase">
-                    <option value="">Select...</option>
-                    <option value="base">Base/Aerobic building</option>
-                    <option value="build">Build/Intensity development</option>
-                    <option value="peak">Peak/Race prep</option>
-                    <option value="taper">Taper</option>
-                    <option value="recovery">Recovery/Off-season</option>
-                </select>
-            </div>
-            
-            <div class="form-group">
-                <label>Championship Meet Date (optional)</label>
-                <input type="date" id="champDate">
-            </div>
-            
-            <div class="button-group">
-                <button class="btn-secondary" onclick="prevScreen()">Back</button>
-                <button class="btn-primary" onclick="nextScreen()">Continue</button>
-            </div>
-        </div>
 
-        <!-- Screen 6: Training Philosophy -->
-        <div class="screen" id="screen6">
-            <div class="screen-number">6 of 11</div>
-            <h2>Your training philosophy</h2>
-            <p class="subtitle">Select all that apply to your approach</p>
-            
-            <div class="checkbox-group">
-                <div class="checkbox-item">
-                    <input type="checkbox" id="phil1">
-                    <label for="phil1">High volume / aerobic emphasis</label>
+            <!-- SCREEN 9: Goals -->
+            <div class="screen" id="screen9">
+                <button class="back-button" onclick="prevScreen()">←</button>
+                <h2 class="screen-title">What are you hoping Swimnerd AI will help you with?</h2>
+                <p class="screen-subtitle">Select all that apply</p>
+                <div class="options-container">
+                    <div class="option" style="border: 2px solid #e0e0e0;" onclick="toggleCheckbox(this, 'goals')">
+                        <input type="checkbox" style="width: 20px; height: 20px; margin-right: 10px;">
+                        <span class="option-label">Save time planning practices</span>
+                    </div>
+                    <div class="option" style="border: 2px solid #e0e0e0;" onclick="toggleCheckbox(this, 'goals')">
+                        <input type="checkbox" style="width: 20px; height: 20px; margin-right: 10px;">
+                        <span class="option-label">Get fresh ideas and variety</span>
+                    </div>
+                    <div class="option" style="border: 2px solid #e0e0e0;" onclick="toggleCheckbox(this, 'goals')">
+                        <input type="checkbox" style="width: 20px; height: 20px; margin-right: 10px;">
+                        <span class="option-label">Learn from championship coaches</span>
+                    </div>
+                    <div class="option" style="border: 2px solid #e0e0e0;" onclick="toggleCheckbox(this, 'goals')">
+                        <input type="checkbox" style="width: 20px; height: 20px; margin-right: 10px;">
+                        <span class="option-label">Better periodization & planning</span>
+                    </div>
+                    <div class="option" style="border: 2px solid #e0e0e0;" onclick="toggleCheckbox(this, 'goals')">
+                        <input type="checkbox" style="width: 20px; height: 20px; margin-right: 10px;">
+                        <span class="option-label">Track athlete progress</span>
+                    </div>
+                    <div class="option" style="border: 2px solid #e0e0e0;" onclick="toggleCheckbox(this, 'goals')">
+                        <input type="checkbox" style="width: 20px; height: 20px; margin-right: 10px;">
+                        <span class="option-label">Share with assistant coaches</span>
+                    </div>
                 </div>
-                <div class="checkbox-item">
-                    <input type="checkbox" id="phil2">
-                    <label for="phil2">High intensity / race pace focus</label>
-                </div>
-                <div class="checkbox-item">
-                    <input type="checkbox" id="phil3">
-                    <label for="phil3">Technique-driven</label>
-                </div>
-                <div class="checkbox-item">
-                    <input type="checkbox" id="phil4">
-                    <label for="phil4">Balanced mix of volume + intensity</label>
-                </div>
-                <div class="checkbox-item">
-                    <input type="checkbox" id="phil5">
-                    <label for="phil5">USRPT (Ultra Short Race Pace Training)</label>
-                </div>
-                <div class="checkbox-item">
-                    <input type="checkbox" id="phil6">
-                    <label for="phil6">Periodization-based</label>
-                </div>
+                <button class="continue-button" disabled id="btn9" onclick="nextScreen()">Continue</button>
             </div>
-            
-            <div class="form-group" style="margin-top: 20px;">
-                <label>Coaching Philosophy (in your own words)</label>
-                <textarea id="philText" placeholder="Tell us more about your approach..."></textarea>
-            </div>
-            
-            <div class="button-group">
-                <button class="btn-secondary" onclick="prevScreen()">Back</button>
-                <button class="btn-primary" onclick="nextScreen()">Continue</button>
-            </div>
-        </div>
 
-        <!-- Screen 7: Practice Structure -->
-        <div class="screen" id="screen7">
-            <div class="screen-number">7 of 11</div>
-            <h2>Typical practice structure</h2>
-            <p class="subtitle">How do you organize practice time?</p>
-            
-            <div class="form-group">
-                <label>Typical Practice Duration (minutes)</label>
-                <input type="number" id="practiceDuration" placeholder="e.g., 90" min="30" max="180">
-            </div>
-            
-            <div class="form-group">
-                <label>Practice Breakdown (%)</label>
-                <div class="percentage-inputs">
-                    <div class="percentage-input">
-                        <label>Warm-up</label>
-                        <input type="number" id="warmupPct" placeholder="20" min="0" max="100">
-                    </div>
-                    <div class="percentage-input">
-                        <label>Main Set</label>
-                        <input type="number" id="mainPct" placeholder="65" min="0" max="100">
-                    </div>
-                    <div class="percentage-input">
-                        <label>Cool-down</label>
-                        <input type="number" id="cooldownPct" placeholder="15" min="0" max="100">
-                    </div>
+            <!-- SCREEN 10: Success -->
+            <div class="screen" id="screen10">
+                <div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
+                    <div style="font-size: 80px; margin-bottom: 20px;">🎉</div>
+                    <h2 class="screen-title">You're all set!</h2>
+                    <p class="screen-subtitle">Welcome to Swimnerd AI. Let's start building championship practices.</p>
                 </div>
-                <small style="color: #999; display: block; margin-top: 8px;">Should add up to 100%</small>
+                <button class="continue-button">Go to Dashboard</button>
             </div>
-            
-            <div class="form-group">
-                <label>Practices per Week</label>
-                <select id="practicesPerWeek">
-                    <option value="">Select...</option>
-                    <option value="3-4">3-4 practices</option>
-                    <option value="5-6">5-6 practices</option>
-                    <option value="7-8">7-8 practices</option>
-                    <option value="9-10">9-10 practices</option>
-                    <option value="11+">11+ practices</option>
-                </select>
-            </div>
-            
-            <div class="button-group">
-                <button class="btn-secondary" onclick="prevScreen()">Back</button>
-                <button class="btn-primary" onclick="nextScreen()">Continue</button>
-            </div>
-        </div>
 
-        <!-- Screen 8: Go-to Sets -->
-        <div class="screen" id="screen8">
-            <div class="screen-number">8 of 11</div>
-            <h2>Your go-to set types</h2>
-            <p class="subtitle">What kinds of sets do you use most often?</p>
-            
-            <div class="checkbox-group">
-                <div class="checkbox-item">
-                    <input type="checkbox" id="set1">
-                    <label for="set1">Straight aerobic sets (steady pace)</label>
-                </div>
-                <div class="checkbox-item">
-                    <input type="checkbox" id="set2">
-                    <label for="set2">Descending sets</label>
-                </div>
-                <div class="checkbox-item">
-                    <input type="checkbox" id="set3">
-                    <label for="set3">IM / stroke-specific work</label>
-                </div>
-                <div class="checkbox-item">
-                    <input type="checkbox" id="set4">
-                    <label for="set4">Threshold / lactate sets</label>
-                </div>
-                <div class="checkbox-item">
-                    <input type="checkbox" id="set5">
-                    <label for="set5">Broken swims</label>
-                </div>
-                <div class="checkbox-item">
-                    <input type="checkbox" id="set6">
-                    <label for="set6">Sprint / power sets</label>
-                </div>
-                <div class="checkbox-item">
-                    <input type="checkbox" id="set7">
-                    <label for="set7">Kick / drill / technique focus</label>
-                </div>
-                <div class="checkbox-item">
-                    <input type="checkbox" id="set8">
-                    <label for="set8">Vertical kicking / underwater work</label>
-                </div>
-            </div>
-            
-            <div class="button-group">
-                <button class="btn-secondary" onclick="prevScreen()">Back</button>
-                <button class="btn-primary" onclick="nextScreen()">Continue</button>
-            </div>
-        </div>
-
-        <!-- Screen 9: Intervals & Pacing -->
-        <div class="screen" id="screen9">
-            <div class="screen-number">9 of 11</div>
-            <h2>Intervals & pacing approach</h2>
-            <p class="subtitle">How do you structure intervals and communicate pacing?</p>
-            
-            <div class="form-group">
-                <label>Interval Method</label>
-                <div class="radio-group">
-                    <div class="radio-item">
-                        <input type="radio" id="interval1" name="intervalMethod">
-                        <label for="interval1">Clock-based intervals (e.g., on 1:00, on 1:15)</label>
-                    </div>
-                    <div class="radio-item">
-                        <input type="radio" id="interval2" name="intervalMethod">
-                        <label for="interval2">Rest-based intervals (e.g., :10 rest, :15 rest)</label>
-                    </div>
-                    <div class="radio-item">
-                        <input type="radio" id="interval3" name="intervalMethod">
-                        <label for="interval3">Mixed (depends on set)</label>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="form-group">
-                <label>Pacing Communication</label>
-                <div class="checkbox-group">
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="pace1">
-                        <label for="pace1">Target times (e.g., hold :32s)</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="pace2">
-                        <label for="pace2">Percentage of best time (e.g., 80% effort)</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="pace3">
-                        <label for="pace3">Heart rate zones</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="pace4">
-                        <label for="pace4">Perceived effort (easy / moderate / hard)</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="pace5">
-                        <label for="pace5">Race pace references (e.g., 200 pace)</label>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="button-group">
-                <button class="btn-secondary" onclick="prevScreen()">Back</button>
-                <button class="btn-primary" onclick="nextScreen()">Continue</button>
-            </div>
-        </div>
-
-        <!-- Screen 10: Goals for AI -->
-        <div class="screen" id="screen10">
-            <div class="screen-number">10 of 11</div>
-            <h2>What are you hoping Swimnerd AI will help you with?</h2>
-            <p class="subtitle">Select your top priorities</p>
-            
-            <div class="checkbox-group">
-                <div class="checkbox-item">
-                    <input type="checkbox" id="goal1">
-                    <label for="goal1">Save time planning practices</label>
-                </div>
-                <div class="checkbox-item">
-                    <input type="checkbox" id="goal2">
-                    <label for="goal2">Get fresh workout ideas</label>
-                </div>
-                <div class="checkbox-item">
-                    <input type="checkbox" id="goal3">
-                    <label for="goal3">Better periodization / season planning</label>
-                </div>
-                <div class="checkbox-item">
-                    <input type="checkbox" id="goal4">
-                    <label for="goal4">Track swimmer progress over time</label>
-                </div>
-                <div class="checkbox-item">
-                    <input type="checkbox" id="goal5">
-                    <label for="goal5">Generate practices that match my style</label>
-                </div>
-                <div class="checkbox-item">
-                    <input type="checkbox" id="goal6">
-                    <label for="goal6">Learn new training methodologies</label>
-                </div>
-            </div>
-            
-            <div class="form-group" style="margin-top: 20px;">
-                <label>Anything else you'd like us to know?</label>
-                <textarea id="additionalGoals" placeholder="Optional..."></textarea>
-            </div>
-            
-            <div class="button-group">
-                <button class="btn-secondary" onclick="prevScreen()">Back</button>
-                <button class="btn-primary" onclick="nextScreen()">Continue</button>
-            </div>
-        </div>
-
-        <!-- Screen 11: Ready! -->
-        <div class="screen" id="screen11">
-            <div class="screen-number">11 of 11</div>
-            <div class="success-icon">🎉</div>
-            <h1 style="text-align: center;">You're all set!</h1>
-            <p class="subtitle" style="text-align: center;">Your profile is ready. Swimnerd AI will learn and adapt as you use it.</p>
-            
-            <div class="info-box">
-                <strong>What happens next:</strong><br><br>
-                📸 Take a photo of your next workout<br>
-                🤖 AI converts it to structured data<br>
-                📊 We learn your patterns and preferences<br>
-                ✨ Generate personalized practices that match YOUR style
-            </div>
-            
-            <div class="info-box" style="background: #E8F5E9; border-color: #4CAF50;">
-                💡 <strong>Pro tip:</strong> The more workouts you track, the better the AI gets at mimicking your coaching style.
-            </div>
-            
-            <div class="button-group">
-                <button class="btn-primary" onclick="alert('Onboarding complete! ✅')" style="flex: none; width: 100%;">Start Using Swimnerd AI</button>
-            </div>
         </div>
     </div>
 
     <script>
-        let currentScreen = 1;
-        const totalScreens = 11;
+        let currentScreen = 0;
+        const totalScreens = 10;
+        const userData = {};
 
         function updateProgress() {
             const progress = (currentScreen / totalScreens) * 100;
-            document.getElementById('progressFill').style.width = progress + '%';
+            document.getElementById('progressBar').style.width = progress + '%';
         }
 
         function nextScreen() {
@@ -823,7 +674,7 @@
         }
 
         function prevScreen() {
-            if (currentScreen > 1) {
+            if (currentScreen > 0) {
                 document.getElementById('screen' + currentScreen).classList.remove('active');
                 currentScreen--;
                 document.getElementById('screen' + currentScreen).classList.add('active');
@@ -832,13 +683,53 @@
             }
         }
 
-        function selectTeamCount(count) {
-            document.querySelectorAll('.team-count-btn').forEach(btn => {
-                btn.classList.remove('selected');
-            });
-            event.target.classList.add('selected');
+        function selectOption(element, group) {
+            // Deselect all in group
+            const options = element.parentElement.querySelectorAll('.option:not([style*="checkbox"])');
+            options.forEach(opt => opt.classList.remove('selected'));
+            
+            // Select this one
+            element.classList.add('selected');
+            
+            // Enable continue button
+            const btnId = 'btn' + currentScreen;
+            const btn = document.getElementById(btnId);
+            if (btn) btn.disabled = false;
+            
+            // Store data
+            userData[group] = element.querySelector('.option-label').textContent.trim();
         }
 
+        function toggleCheckbox(element, group) {
+            const checkbox = element.querySelector('input[type="checkbox"]');
+            checkbox.checked = !checkbox.checked;
+            
+            if (checkbox.checked) {
+                element.style.background = '#0088cc';
+                element.style.color = 'white';
+                element.style.borderColor = '#0088cc';
+            } else {
+                element.style.background = '#ffffff';
+                element.style.color = '#1a1a1a';
+                element.style.borderColor = '#e0e0e0';
+            }
+            
+            // Check if any selected
+            const parent = element.parentElement;
+            const anySelected = Array.from(parent.querySelectorAll('input[type="checkbox"]')).some(cb => cb.checked);
+            
+            // Enable/disable continue button
+            const btnId = 'btn' + currentScreen;
+            const btn = document.getElementById(btnId);
+            if (btn) btn.disabled = !anySelected;
+            
+            // Store data
+            const selected = Array.from(parent.querySelectorAll('input[type="checkbox"]:checked'))
+                .map(cb => cb.parentElement.querySelector('.option-label').textContent.trim());
+            userData[group] = selected;
+        }
+
+        // Initialize
         updateProgress();
     </script>
 </body>
